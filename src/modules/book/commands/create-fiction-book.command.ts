@@ -3,7 +3,6 @@ import FictionBookEntity from '../variants/fiction-book.entity'
 
 export type CreateBookFictionCommandInput = {
   name: string
-  authorName: string
   year: number
   price: number
 }
@@ -11,8 +10,8 @@ export type CreateBookFictionCommandInput = {
 export class CreateBookFictionCommand {
   constructor(private bookRepository: IBookRepository) {}
 
-  async execute(book: CreateBookFictionCommandInput) {
-    const newBook = new FictionBookEntity(book.name, book.authorName, book.year, book.price)
-    return await this.bookRepository.addBook(newBook)
+  execute(book: CreateBookFictionCommandInput) {
+    const newBook = new FictionBookEntity(book.name, book.year, book.price)
+    return this.bookRepository.addBook(newBook)
   }
 }

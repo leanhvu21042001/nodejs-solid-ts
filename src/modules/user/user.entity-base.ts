@@ -1,6 +1,6 @@
 export type AggregateBookID = string
 
-export abstract class AbstractBookBaseEntity {
+export abstract class AbstractUserEntityBase {
   private _id: string
   private _createdAt: Date
   private _updatedAt: Date
@@ -15,22 +15,20 @@ export abstract class AbstractBookBaseEntity {
     this._updatedAt = updatedAt
   }
 
-  protected get id(): string {
+  public get id(): string {
     return this._id
   }
 
-  protected get createdAt(): Date {
+  public get createdAt(): Date {
     return this._createdAt
   }
 
-  protected get updatedAt(): Date {
+  public get updatedAt(): Date {
     return this._updatedAt
   }
 
-  protected abstract getType(): string
-
-  protected toString(): string {
-    const str: string = `${this.getType()}: ${this.id}`
+  public toString(): string {
+    const str: string = `UserEntity: ${this.id}`
     return str
   }
 }
