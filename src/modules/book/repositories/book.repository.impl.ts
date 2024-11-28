@@ -1,12 +1,13 @@
+import { DatabaseProvider } from 'src/libs/database/database-provider'
+
 import { BookEntity } from '../book.entity'
 import IBookRepository from './book.repository'
 
-const books: BookEntity[] = []
 class BookRepository implements IBookRepository {
   private books: BookEntity[]
 
   constructor() {
-    this.books = books
+    this.books = DatabaseProvider.getModel<BookEntity>('books')
   }
   getBookById(id: BookEntity['id']): BookEntity | undefined {
     return this.books.find((book) => book.id === id)

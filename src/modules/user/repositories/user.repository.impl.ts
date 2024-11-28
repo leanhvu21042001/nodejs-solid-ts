@@ -1,14 +1,15 @@
+import { DatabaseProvider } from 'src/libs/database/database-provider'
+
 import { UserEntity } from '../user.entity'
 import IUserRepository from './user.repository'
-
-const users: UserEntity[] = []
 
 class UserRepository implements IUserRepository {
   private users: UserEntity[]
 
   constructor() {
-    this.users = users
+    this.users = DatabaseProvider.getModel<UserEntity>('users')
   }
+
   addUser(user: UserEntity): void {
     this.users.push(user)
   }
