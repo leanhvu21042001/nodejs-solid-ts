@@ -10,19 +10,19 @@ export class TagRepository implements ITagRepository {
     this.tags = DatabaseProvider.getModel<TagEntity>('tags')
   }
 
-  add(tag: TagEntity): void {
+  async add(tag: TagEntity): Promise<void> {
     this.tags.push(tag)
   }
-  delete(id: TagEntity['id']): void {
+  async delete(id: TagEntity['id']): Promise<void> {
     this.tags = this.tags.filter((tag) => tag.id !== id)
   }
-  update(tag: TagEntity): void {
+  async update(tag: TagEntity): Promise<void> {
     this.tags = this.tags.map((t) => (t.id === tag.id ? tag : t))
   }
-  findById(id: TagEntity['id']): TagEntity | undefined {
+  async findById(id: TagEntity['id']): Promise<TagEntity | undefined> {
     return this.tags.find((tag) => tag.id === id)
   }
-  findAll(): TagEntity[] {
+  async findAll(): Promise<TagEntity[]> {
     return this.tags
   }
 }

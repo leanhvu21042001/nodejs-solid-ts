@@ -10,13 +10,13 @@ class UserRepository implements IUserRepository {
     this.users = DatabaseProvider.getModel<UserEntity>('users')
   }
 
-  addUser(user: UserEntity): void {
+  async addUser(user: UserEntity): Promise<void> {
     this.users.push(user)
   }
-  getUserById(id: UserEntity['id']): UserEntity | undefined {
+  async getUserById(id: UserEntity['id']): Promise<UserEntity | undefined> {
     return this.users.find((user) => user.id === id)
   }
-  getAllUsers(): UserEntity[] {
+  async getAllUsers(): Promise<UserEntity[]> {
     return this.users
   }
 }

@@ -9,14 +9,14 @@ class BookRepository implements IBookRepository {
   constructor() {
     this.books = DatabaseProvider.getModel<BookEntity>('books')
   }
-  getBookById(id: BookEntity['id']): BookEntity | undefined {
+  async getBookById(id: BookEntity['id']): Promise<BookEntity | undefined> {
     return this.books.find((book) => book.id === id)
   }
 
-  addBook(book: BookEntity): void {
+  async addBook(book: BookEntity): Promise<void> {
     this.books.push(book)
   }
-  getAllBooks(): BookEntity[] {
+  async getAllBooks(): Promise<BookEntity[]> {
     return this.books
   }
 }
