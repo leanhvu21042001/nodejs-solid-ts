@@ -1,5 +1,4 @@
-import { BookDI } from './modules/book/booking.di'
-import { UserDI } from './modules/user/user.di'
+import { BookDI } from './di/book.di'
 
 async function main() {
   BookDI.createBookCommand.execute({

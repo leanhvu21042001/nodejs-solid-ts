@@ -1,6 +1,6 @@
 export type AggregateBookID = string
 
-export abstract class AbstractUserEntityBase {
+export abstract class AbstractTagEntityBase {
   private _id: string
   private _createdAt: Date
   private _updatedAt: Date
@@ -15,7 +15,7 @@ export abstract class AbstractUserEntityBase {
     this._updatedAt = updatedAt
   }
 
-  public setId(id: AbstractUserEntityBase['_id']): void {
+  public setId(id: AbstractTagEntityBase['_id']): void {
     this._id = id
   }
 
@@ -32,7 +32,7 @@ export abstract class AbstractUserEntityBase {
   }
 
   public toString(): string {
-    const str: string = `UserEntity: ${this.id}`
+    const str: string = `TagEntityBase: ${this.id}`
     return str
   }
 }

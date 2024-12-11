@@ -15,6 +15,10 @@ export abstract class AbstractBookEntityBase {
     this._updatedAt = updatedAt
   }
 
+  public setId(id: AbstractBookEntityBase['_id']): void {
+    this._id = id
+  }
+
   public get id(): string {
     return this._id
   }
