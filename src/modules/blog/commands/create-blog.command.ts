@@ -14,6 +14,10 @@ export type CreateBlogCommandInput = {
   tagIDs: Array<TagEntity['id']>
 }
 
+export type CreateBlogCommandOutput = {
+  id: BlogEntity['id']
+}
+
 export class CreateBlogCommand {
   constructor(
     private blogRepository: IBlogRepository,
@@ -21,14 +25,16 @@ export class CreateBlogCommand {
     private userRepository: IUserRepository,
   ) {}
 
-  execute(input: CreateBlogCommandInput) {
-    const author = this.userRepository.getUserById(input.authorId)
+  async execute(input: CreateBlogCommandInput): Promise<CreateBlogCommandOutput> {
+    const author = await this.userRepository.getUserById(input.authorId)
 
     if (!author) {
       throw new Error('Invalid author ID')
     }
 
-    const tags = this.tagRepository.findAll().filter((tag) => input.tagIDs.includes(tag.id))
+    let tags = await this.tagRepository.findAll()
+    tags = tags.filter((tag) => input.tagIDs.includes(tag.id))
+
     if (!tags.length) {
       throw new Error('Invalid tag IDs')
     }
@@ -37,6 +43,10 @@ export class CreateBlogCommand {
     newBlog.assignAuthor(author)
     newBlog.assignTags(tags)
 
-    return this.blogRepository.add(newBlog)
+    const id = await this.blogRepository.add(newBlog)
+
+    return {
+      id,
+    }
   }
 }

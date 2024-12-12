@@ -10,8 +10,10 @@ export class BlogRepository implements IBlogRepository {
     this.blogs = DatabaseProvider.getModel<BlogEntity>('blogs')
   }
 
-  async add(blog: BlogEntity): Promise<void> {
+  async add(blog: BlogEntity): Promise<BlogEntity['id']> {
     this.blogs.push(blog)
+
+    return blog.id
   }
   async delete(id: BlogEntity['id']): Promise<void> {
     this.blogs = this.blogs.filter((blog) => blog.id !== id)
