@@ -1,3 +1,4 @@
+import { BadRequestException } from 'src/libs/exceptions/exceptions'
 import ITagRepository from 'src/modules/tag/repositories/tag.repository'
 import { TagEntity } from 'src/modules/tag/tag.entity'
 import IUserRepository from 'src/modules/user/repositories/user.repository'
@@ -5,7 +6,6 @@ import { UserEntity } from 'src/modules/user/user.entity'
 
 import { BlogEntity } from '../blog.entity'
 import IBlogRepository from '../repositories/blog.repository'
-import { BadRequestException } from 'src/libs/exceptions/exceptions'
 
 export type CreateBlogCommandInput = {
   title: BlogEntity['title']
@@ -27,7 +27,7 @@ export class CreateBlogCommand {
   ) {}
 
   async execute(input: CreateBlogCommandInput): Promise<CreateBlogCommandOutput> {
-    const author = await this.userRepository.getUserById(input.authorId)
+    const author = await this.userRepository.getById(input.authorId)
 
     if (!author) {
       throw new BadRequestException('Invalid author ID')

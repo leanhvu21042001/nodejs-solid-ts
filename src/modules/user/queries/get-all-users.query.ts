@@ -4,6 +4,6 @@ export class GetAllUsersQuery {
   constructor(private userRepository: IUserRepository) {}
 
   async execute() {
-    return await this.userRepository.getAllUsers()
+    return await this.userRepository.getAll()
   }
 }

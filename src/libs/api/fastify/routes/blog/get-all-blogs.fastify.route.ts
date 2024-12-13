@@ -1,7 +1,7 @@
 import { BlogEntity } from 'src/modules/blog/blog.entity'
 import { GetAllBlogQuery, GetAllBlogQueryOutput } from 'src/modules/blog/queries/get-all-blog.query'
 
-import { HttpMethod, IRouteExpress, TExpressRequest, TExpressResponse } from '../route.express.interface'
+import { HttpMethod, IRouteFastify, TFastifyRequest, TFastifyResponse } from '../route.fastify.interface'
 
 export type GetAllBlogResponseDto = {
   blogs: Array<{
@@ -17,7 +17,7 @@ export type GetAllBlogResponseDto = {
   }>
 }
 
-export class GetAllBlogExpressRoute implements IRouteExpress {
+export class GetAllBlogExpressRoute implements IRouteFastify {
   private constructor(
     private readonly path: string,
     private readonly method: HttpMethod,
@@ -28,8 +28,8 @@ export class GetAllBlogExpressRoute implements IRouteExpress {
     return new GetAllBlogExpressRoute('/blogs', HttpMethod.GET, getAllBlogQuery)
   }
 
-  getHandler(): (request: TExpressRequest, response: TExpressResponse) => Promise<void> {
-    return async (request: TExpressRequest, response: TExpressResponse) => {
+  getHandler(): (request: TFastifyRequest, response: TFastifyResponse) => Promise<void> {
+    return async (request: TFastifyRequest, response: TFastifyResponse) => {
       const output = await this.getAllBlogQuery.execute()
       const responseBody = this.present(output)
 

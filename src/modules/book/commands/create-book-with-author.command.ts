@@ -20,7 +20,7 @@ export class CreateBookWithAuthorCommand {
 
   async execute(book: CreateBookWithAuthorCommandInput) {
     const author = new UserEntity(book.authorName, book.authorAge)
-    await this.userRepository.addUser(author)
+    await this.userRepository.add(author)
 
     const newBook = new BookEntity(book.name, book.year, book.price, author)
     return await this.bookRepository.addBook(newBook)

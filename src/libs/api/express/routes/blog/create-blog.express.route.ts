@@ -36,7 +36,7 @@ export class CreateBlogRouteExpress implements IRouteExpress {
 
       const output: CreateBlogCommandOutput = await this.createBlogService.execute(input)
       const responseBody = this.present(output)
-      response.status(201).json(responseBody).send()
+      response.status(201).send(responseBody)
     }
   }
 

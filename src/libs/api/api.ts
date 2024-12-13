@@ -5,7 +5,7 @@ import { CreateBlogRouteExpress } from './express/routes/blog/create-blog.expres
 import { GetAllBlogExpressRoute } from './express/routes/blog/get-all-blog.express.route'
 
 export const API = {
-  expressServer: ApiExpress.create([
+  EXPRESS: ApiExpress.create([
     GetAllBlogExpressRoute.create(BLogDI.getAllBlogQuery),
     CreateBlogRouteExpress.create(BLogDI.createBlogCommand),
   ]),
