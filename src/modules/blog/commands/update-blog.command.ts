@@ -1,3 +1,4 @@
+import { BadRequestException } from 'src/libs/exceptions/exceptions'
 import ITagRepository from 'src/modules/tag/repositories/tag.repository'
 import { TagEntity } from 'src/modules/tag/tag.entity'
 import { UserEntity } from 'src/modules/user/user.entity'
@@ -20,15 +21,17 @@ export class UpdateBlogCommand {
     private tagRepository: ITagRepository,
   ) {}
 
-  execute(input: UpdateBlogCommandInput) {
-    const tags = this.tagRepository.findAll().filter((tag) => input.tagIDs.includes(tag.id))
+  async execute(input: UpdateBlogCommandInput) {
+    let tags = await this.tagRepository.findAll()
+    tags = tags.filter((tag) => input.tagIDs.includes(tag.id))
+
     if (!tags.length) {
-      throw new Error('Invalid tag IDs')
+      throw new BadRequestException('Invalid tag IDs')
     }
 
-    const blogFound = this.blogRepository.findById(input.id)
+    const blogFound = await this.blogRepository.findById(input.id)
     if (!blogFound) {
-      throw new Error('Blog not found')
+      throw new BadRequestException('Blog not found')
     }
 
     const newBlog = new BlogEntity(input.title, input.description, input.content)

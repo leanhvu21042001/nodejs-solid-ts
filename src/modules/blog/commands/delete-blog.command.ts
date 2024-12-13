@@ -1,3 +1,4 @@
+import { BadRequestException } from 'src/libs/exceptions/exceptions'
 import { BlogEntity } from '../blog.entity'
 import IBlogRepository from '../repositories/blog.repository'
 
@@ -8,10 +9,10 @@ export type DeleteBlogCommandInput = {
 export class DeleteBlogCommand {
   constructor(private blogRepository: IBlogRepository) {}
 
-  execute(input: DeleteBlogCommandInput) {
-    const blog = this.blogRepository.findById(input.id)
+  async execute(input: DeleteBlogCommandInput) {
+    const blog = await this.blogRepository.findById(input.id)
     if (!blog) {
-      throw new Error('Blog not found')
+      throw new BadRequestException('Blog not found')
     }
 
     return this.blogRepository.delete(blog.id)

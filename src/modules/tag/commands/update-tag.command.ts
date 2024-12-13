@@ -9,9 +9,9 @@ export type UpdateTagCommandInput = {
 export class UpdateTagCommand {
   constructor(private tagRepository: ITagRepository) {}
 
-  execute(input: UpdateTagCommandInput) {
+  async execute(input: UpdateTagCommandInput) {
     const tag = new TagEntity(input.title)
     tag.setId(input.id)
-    return this.tagRepository.add(tag)
+    return await this.tagRepository.add(tag)
   }
 }

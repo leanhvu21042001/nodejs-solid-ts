@@ -5,6 +5,7 @@ import { UserEntity } from 'src/modules/user/user.entity'
 
 import { BlogEntity } from '../blog.entity'
 import IBlogRepository from '../repositories/blog.repository'
+import { BadRequestException } from 'src/libs/exceptions/exceptions'
 
 export type CreateBlogCommandInput = {
   title: BlogEntity['title']
@@ -29,14 +30,14 @@ export class CreateBlogCommand {
     const author = await this.userRepository.getUserById(input.authorId)
 
     if (!author) {
-      throw new Error('Invalid author ID')
+      throw new BadRequestException('Invalid author ID')
     }
 
     let tags = await this.tagRepository.findAll()
     tags = tags.filter((tag) => input.tagIDs.includes(tag.id))
 
     if (!tags.length) {
-      throw new Error('Invalid tag IDs')
+      throw new BadRequestException('Invalid tag IDs')
     }
 
     const newBlog = new BlogEntity(input.title, input.description, input.content)

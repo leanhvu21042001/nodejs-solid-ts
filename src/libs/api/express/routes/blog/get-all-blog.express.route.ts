@@ -25,7 +25,7 @@ export class GetAllBlogExpressRoute implements IRouteExpress {
   ) {}
 
   public static create(getAllBlogQuery: GetAllBlogQuery): GetAllBlogExpressRoute {
-    return new GetAllBlogExpressRoute('/products', HttpMethod.GET, getAllBlogQuery)
+    return new GetAllBlogExpressRoute('/blogs', HttpMethod.GET, getAllBlogQuery)
   }
 
   getHandler(): (request: TExpressRequest, response: TExpressResponse) => Promise<void> {

@@ -1,0 +1,16 @@
+
+### get all blogs
+GET http://localhost:5000/blogs
+Content-Type: application/json
+
+### create a new blog
+POST http://localhost:5000/blogs
+Content-Type: application/json
+
+{
+    "title": "My first blog",
+    "description": "This is my first blog",
+    "content": "This is the content of my first blog",
+    "authorId": "1234567890",
+    "tagIDs": ["1234567890", "9876543210"]
+}

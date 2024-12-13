@@ -1,6 +1,7 @@
 import express from 'express'
 
 import { ENV } from 'src/libs/configs/env.config'
+import { BaseException } from 'src/libs/exceptions/exceptions'
 
 import { IApi } from '../api.interface'
 import {
@@ -34,6 +35,7 @@ export class ApiExpress implements IApi {
 
   public start(port: number): void {
     this.app.listen(port, () => {
+      console.log(`Server is running on port ${port}`)
       this.displayRoutes()
     })
   }
@@ -51,14 +53,23 @@ export class ApiExpress implements IApi {
       next(new Error('Not Found'))
     })
 
-    this.app.use((error: Error, req: TExpressRequest, res: TExpressResponse, next: TExpressNextFunction) => {
-      if (ENV.NODE_ENV === 'production') {
-        delete error.stack
-      }
+    this.app.use(
+      (error: Error | BaseException, req: TExpressRequest, res: TExpressResponse, next: TExpressNextFunction) => {
+        if (ENV.NODE_ENV === 'production') {
+          delete error.stack
+        }
 
-      res.status(500).json({ message: 'Something went wrong' })
-      return
-    })
+        console.log('LAVDEV Error:', error)
+
+        if (error instanceof BaseException) {
+          res.status(error.statusCode).json(error)
+          return
+        }
+
+        res.status(500).json({ message: 'Something went wrong' })
+        return
+      },
+    )
   }
 
   private displayRoutes() {
@@ -71,6 +82,10 @@ export class ApiExpress implements IApi {
         }
       })
 
+    if (!routes.length) {
+      console.log('No routes found')
+      return
+    }
     console.log(routes)
   }
 

@@ -8,8 +8,8 @@ export type CreateTagCommandInput = {
 export class CreateTagCommand {
   constructor(private tagRepository: ITagRepository) {}
 
-  execute(input: CreateTagCommandInput) {
+  async execute(input: CreateTagCommandInput) {
     const tag = new TagEntity(input.title)
-    return this.tagRepository.add(tag)
+    return await this.tagRepository.add(tag)
   }
 }

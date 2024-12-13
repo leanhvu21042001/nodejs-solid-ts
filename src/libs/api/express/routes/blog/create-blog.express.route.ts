@@ -19,7 +19,7 @@ export class CreateBlogRouteExpress implements IRouteExpress {
   ) {}
 
   public static create(createBlogService: CreateBlogCommand): CreateBlogRouteExpress {
-    return new CreateBlogRouteExpress('/blog', HttpMethod.POST, createBlogService)
+    return new CreateBlogRouteExpress('/blogs', HttpMethod.POST, createBlogService)
   }
 
   public getHandler(): (request: TExpressRequest, response: TExpressResponse) => Promise<void> {

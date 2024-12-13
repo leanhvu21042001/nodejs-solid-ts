@@ -11,7 +11,7 @@ const blogRepository = new BlogRepository()
 const tagRepository = new TagRepository()
 const userRepository = new UserRepository()
 
-const UserDI = {
+const BLogDI = {
   createBlogCommand: new CreateBlogCommand(blogRepository, tagRepository, userRepository),
   deleteBlogCommand: new DeleteBlogCommand(blogRepository),
   updateBlogCommand: new UpdateBlogCommand(blogRepository, tagRepository),
@@ -19,4 +19,4 @@ const UserDI = {
   getAllBlogQuery: new GetAllBlogQuery(blogRepository),
 }
 
-export { UserDI }
+export { BLogDI }

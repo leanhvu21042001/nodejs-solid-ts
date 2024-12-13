@@ -8,7 +8,7 @@ export type GetTagByIDInput = {
 export class GetTagByIDQuery {
   constructor(private tagRepository: ITagRepository) {}
 
-  execute(input: GetTagByIDInput) {
-    return this.tagRepository.findById(input.id)
+  async execute(input: GetTagByIDInput) {
+    return await this.tagRepository.findById(input.id)
   }
 }

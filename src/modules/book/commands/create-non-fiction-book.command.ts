@@ -10,8 +10,8 @@ export type CreateBookNonFictionCommandInput = {
 export class CreateBookNonFictionCommand {
   constructor(private bookRepository: IBookRepository) {}
 
-  execute(book: CreateBookNonFictionCommandInput) {
+  async execute(book: CreateBookNonFictionCommandInput) {
     const newBook = new NonFictionBookEntity(book.name, book.year, book.price)
-    return this.bookRepository.addBook(newBook)
+    return await this.bookRepository.addBook(newBook)
   }
 }

@@ -8,7 +8,7 @@ export type GetUserByIDInput = {
 export class GetUserByIDQuery {
   constructor(private userRepository: IUserRepository) {}
 
-  execute(input: GetUserByIDInput) {
-    return this.userRepository.getUserById(input.id)
+  async execute(input: GetUserByIDInput) {
+    return await this.userRepository.getUserById(input.id)
   }
 }

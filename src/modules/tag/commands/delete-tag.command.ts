@@ -8,7 +8,7 @@ export type DeleteTagCommandInput = {
 export class DeleteTagCommand {
   constructor(private tagRepository: ITagRepository) {}
 
-  execute(input: DeleteTagCommandInput) {
-    return this.tagRepository.delete(input.id)
+  async execute(input: DeleteTagCommandInput) {
+    return await this.tagRepository.delete(input.id)
   }
 }

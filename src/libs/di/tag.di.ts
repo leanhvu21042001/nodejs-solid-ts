@@ -7,7 +7,7 @@ import { TagRepository } from 'src/modules/tag/repositories/tag.repository.impl'
 
 const tagRepository = new TagRepository()
 
-const UserDI = {
+const TagDI = {
   createTagCommand: new CreateTagCommand(tagRepository),
   deleteTagCommand: new DeleteTagCommand(tagRepository),
   updateTagCommand: new UpdateTagCommand(tagRepository),
@@ -15,4 +15,4 @@ const UserDI = {
   getAllTagQuery: new GetAllTagQuery(tagRepository),
 }
 
-export { UserDI }
+export { TagDI }

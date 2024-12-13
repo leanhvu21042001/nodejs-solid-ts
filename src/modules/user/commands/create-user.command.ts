@@ -9,8 +9,8 @@ export type CreateUserCommandInput = {
 export class CreateUserCommand {
   constructor(private userRepository: IUserRepository) {}
 
-  execute(userInput: CreateUserCommandInput) {
+  async execute(userInput: CreateUserCommandInput) {
     const newUser = new UserEntity(userInput.name, userInput.age)
-    return this.userRepository.addUser(newUser)
+    return await this.userRepository.addUser(newUser)
   }
 }

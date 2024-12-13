@@ -18,11 +18,11 @@ export class CreateBookWithAuthorCommand {
     private userRepository: IUserRepository,
   ) {}
 
-  execute(book: CreateBookWithAuthorCommandInput) {
+  async execute(book: CreateBookWithAuthorCommandInput) {
     const author = new UserEntity(book.authorName, book.authorAge)
-    this.userRepository.addUser(author)
+    await this.userRepository.addUser(author)
 
     const newBook = new BookEntity(book.name, book.year, book.price, author)
-    return this.bookRepository.addBook(newBook)
+    return await this.bookRepository.addBook(newBook)
   }
 }
