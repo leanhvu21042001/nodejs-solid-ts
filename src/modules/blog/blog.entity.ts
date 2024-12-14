@@ -1,6 +1,11 @@
 import { TagEntity } from '../tag/tag.entity'
 import { UserEntity } from '../user/user.entity'
 import { AbstractBlogEntityBase } from './blog.entity-base'
+import {
+  BLogAlreadyPublishedDomainException,
+  BLogAlreadyUnPublishedDomainException,
+  BlogTitleEmptyDomainException,
+} from './blog.error'
 
 export class BlogEntity extends AbstractBlogEntityBase {
   private _title: string
@@ -48,7 +53,23 @@ export class BlogEntity extends AbstractBlogEntityBase {
   }
 
   public publish(): void {
+    if (this._title === '') {
+      throw new BlogTitleEmptyDomainException()
+    }
+    if (this._draft === false) {
+      throw new BLogAlreadyPublishedDomainException()
+    }
     this._draft = false
+  }
+
+  public unPublish(): void {
+    if (this._title === '') {
+      throw new BlogTitleEmptyDomainException()
+    }
+    if (this._draft === true) {
+      throw new BLogAlreadyUnPublishedDomainException()
+    }
+    this._draft = true
   }
 
   public removeTag(tag: TagEntity): void {
