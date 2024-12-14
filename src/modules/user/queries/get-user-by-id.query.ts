@@ -5,10 +5,12 @@ export type GetUserByIDInput = {
   id: UserEntity['id']
 }
 
+export type GetUserByIDOutput = UserEntity | undefined
+
 export class GetUserByIDQuery {
   constructor(private userRepository: IUserRepository) {}
 
-  async execute(input: GetUserByIDInput) {
+  async execute(input: GetUserByIDInput): Promise<GetUserByIDOutput> {
     return await this.userRepository.getById(input.id)
   }
 }

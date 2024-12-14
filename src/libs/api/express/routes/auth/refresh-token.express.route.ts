@@ -1,50 +1,58 @@
+import moment from 'moment'
 import { JwtAuth } from 'src/libs/auth-provider/jwt.auth-provider'
-import { PasswordAuth } from 'src/libs/auth-provider/password.auth-provider'
 import { UnauthorizedException } from 'src/libs/exceptions/exceptions'
-import {
-  CreateUserCommand,
-  CreateUserCommandInput,
-  CreateUserCommandOutput,
-} from 'src/modules/user/commands/create-user.command'
-import {
-  GetUserByUsernameInput,
-  GetUserByUsernameOutput,
-  GetUserByUsernameQuery,
-} from 'src/modules/user/queries/get-user-by-username.query'
+import { GetUserByIDInput, GetUserByIDOutput, GetUserByIDQuery } from 'src/modules/user/queries/get-user-by-id.query'
 
 import { HttpMethod, IRouteExpress, TExpressRequest, TExpressResponse } from '../route.express.interface'
 
-export type LoginAuthResponseDto = {
+// special check input request.body
+export type RefreshTokenAuthInputDto = {
   accessToken: string
   refreshToken: string
 }
 
-export class LoginAuthExpressRoute implements IRouteExpress {
+export type RefreshTokenAuthResponseDto = {
+  accessToken: string
+  refreshToken: string
+}
+
+export class RefreshTokenExpressRoute implements IRouteExpress {
   private constructor(
     private readonly path: string,
     private readonly method: HttpMethod,
-    private readonly getUserByUsernameService: GetUserByUsernameQuery,
+    private readonly getUserByIDService: GetUserByIDQuery,
   ) {}
 
-  public static create(getUserByUsernameService: GetUserByUsernameQuery): LoginAuthExpressRoute {
-    return new LoginAuthExpressRoute('/register', HttpMethod.POST, getUserByUsernameService)
+  public static create(getUserByIDService: GetUserByIDQuery): RefreshTokenExpressRoute {
+    return new RefreshTokenExpressRoute('/refresh-token', HttpMethod.POST, getUserByIDService)
   }
 
   public getHandler(): (request: TExpressRequest, response: TExpressResponse) => Promise<void> {
     return async (request: TExpressRequest, response: TExpressResponse) => {
-      const { username, password } = request.body
+      const { accessToken, refreshToken }: RefreshTokenAuthInputDto = request.body
 
-      const input: GetUserByUsernameInput = {
-        username,
+      if (!accessToken) {
+        throw new UnauthorizedException('Access token is missing')
       }
-      const output: GetUserByUsernameOutput = await this.getUserByUsernameService.execute(input)
-
-      const isPasswordValid = await PasswordAuth.comparePassword(password, output.password)
-      if (!isPasswordValid) {
-        throw new UnauthorizedException('Invalid username or password')
+      if (!refreshToken) {
+        throw new UnauthorizedException('Refresh token is missing')
       }
 
-      const responseBody = this.present(output)
+      // just need to verify refresh token, because accessToken is already verified before and it has expired
+      const accessTokenVerified = JwtAuth.decodeToken(accessToken)
+      const refreshTokenVerified = JwtAuth.verifyToken(refreshToken, 'refresh')
+
+      // Compare should be equal of tokens
+      const userByAccessToken: GetUserByIDOutput = await this.getUserByIDService.execute(accessTokenVerified)
+      const userByRefreshToken: GetUserByIDOutput = await this.getUserByIDService.execute(refreshTokenVerified)
+      if (!userByAccessToken?.id || !userByAccessToken.id || userByAccessToken?.id !== userByRefreshToken?.id) {
+        throw new UnauthorizedException('Invalid access or refresh token')
+      }
+
+      const responseBody = this.present({
+        id: userByAccessToken.id,
+        exp: refreshTokenVerified.exp ?? 0,
+      })
       response.status(200).send(responseBody)
     }
   }
@@ -55,13 +63,21 @@ export class LoginAuthExpressRoute implements IRouteExpress {
   public getMethod(): HttpMethod {
     return this.method
   }
-  private present(input: GetUserByUsernameOutput): LoginAuthResponseDto {
-    const accessToken = JwtAuth.generateToken({ id: input.id }, 'access')
-    const refreshToken = JwtAuth.generateToken({ id: input.id }, 'refresh')
+  private present(input: GetUserByIDInput & { exp: number }): RefreshTokenAuthResponseDto {
+    // Calculate refresh token expiration time
+    const expirationDate = moment(((input.exp ?? 0) + 1) * 1000)
+    const currentTime = moment.now()
+    const refreshExpMilliseconds = expirationDate.diff(currentTime, 'milliseconds')
 
+    // generate new access and refresh tokens
+    const payload = { id: input.id }
+    const accessTokenOutput = JwtAuth.generateToken(payload, 'access')
+    const refreshTokenOutput = JwtAuth.generateToken(payload, 'refresh', { expiresIn: `${refreshExpMilliseconds}ms` })
+
+    // prepare object response.
     const response = {
-      accessToken,
-      refreshToken,
+      accessToken: accessTokenOutput,
+      refreshToken: refreshTokenOutput,
     }
     return response
   }
