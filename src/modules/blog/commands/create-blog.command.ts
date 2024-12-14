@@ -1,4 +1,4 @@
-import { BadRequestException } from 'src/libs/exceptions/exceptions'
+import { BadRequestException } from 'src/libs/exceptions-application/exceptions'
 import ITagRepository from 'src/modules/tag/repositories/tag.repository'
 import { TagEntity } from 'src/modules/tag/tag.entity'
 import IUserRepository from 'src/modules/user/repositories/user.repository'

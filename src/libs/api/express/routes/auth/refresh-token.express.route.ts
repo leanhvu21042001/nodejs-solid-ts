@@ -1,6 +1,6 @@
 import moment from 'moment'
 import { JwtAuth } from 'src/libs/auth-provider/jwt.auth-provider'
-import { UnauthorizedException } from 'src/libs/exceptions/exceptions'
+import { UnauthorizedException } from 'src/libs/exceptions-application/exceptions'
 import { GetUserByIDInput, GetUserByIDOutput, GetUserByIDQuery } from 'src/modules/user/queries/get-user-by-id.query'
 
 import { HttpMethod, IRouteExpress, TExpressRequest, TExpressResponse } from '../route.express.interface'

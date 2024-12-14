@@ -1,6 +1,6 @@
 import { JwtAuth } from 'src/libs/auth-provider/jwt.auth-provider'
 import { PasswordAuth } from 'src/libs/auth-provider/password.auth-provider'
-import { UnauthorizedException } from 'src/libs/exceptions/exceptions'
+import { UnauthorizedException } from 'src/libs/exceptions-application/exceptions'
 import {
   GetUserByUsernameInput,
   GetUserByUsernameOutput,

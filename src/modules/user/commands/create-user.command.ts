@@ -1,4 +1,4 @@
-import { BadRequestException } from 'src/libs/exceptions/exceptions'
+import { BadRequestException } from 'src/libs/exceptions-application/exceptions'
 
 import IUserRepository from '../repositories/user.repository'
 import { UserEntity } from '../user.entity'

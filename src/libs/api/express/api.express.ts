@@ -1,7 +1,7 @@
 import express from 'express'
 
 import { ENV } from 'src/libs/configs/env.config'
-import { BaseException } from 'src/libs/exceptions/exceptions'
+import { BaseException } from 'src/libs/exceptions-application/exceptions'
 
 import { IApi } from '../api.interface'
 import {

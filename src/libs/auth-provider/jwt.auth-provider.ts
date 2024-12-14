@@ -1,7 +1,7 @@
 import jwt, { Jwt, JwtPayload } from 'jsonwebtoken'
 
 import { ENV } from '../configs/env.config'
-import { UnauthorizedException } from '../exceptions/exceptions'
+import { UnauthorizedException } from '../exceptions-application/exceptions'
 
 type IPayloadSignToken = {
   id: string
