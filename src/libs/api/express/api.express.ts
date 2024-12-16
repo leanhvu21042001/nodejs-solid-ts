@@ -50,7 +50,7 @@ export class ApiExpress implements IApi {
     })
 
     this.app.use('*', (req, res, next) => {
-      throw new NotFoundException('Not Found')
+      throw new NotFoundException('Path Not Found')
     })
 
     this.app.use(
