@@ -1,0 +1,28 @@
+### Register
+POST http://localhost:5000/register
+Content-Type: application/json
+
+{
+    "name": "Lê Anh Vũ",
+    "age": 24,
+    "username": "leanhvu",
+    "password": "123"
+}
+
+### Login
+POST http://localhost:5000/login
+Content-Type: application/json
+
+{
+    "username": "leanhvu",
+    "password": "123"
+}
+
+### Refresh Token
+POST http://localhost:5000/refresh-token
+Content-Type: application/json
+
+{
+  "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjdmMzE3NzRkLWE1ODQtNDJkNy1iMzUxLWY1ZTMzZjFlYmMzOSIsImlhdCI6MTczNDMzNzI1MCwiZXhwIjoxNzM0NDIzNjUwfQ.xpxIGWlklJ9f2OV3iZuRbBbl8E_qIH_c65pUMuaFoUI",
+  "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjdmMzE3NzRkLWE1ODQtNDJkNy1iMzUxLWY1ZTMzZjFlYmMzOSIsImlhdCI6MTczNDMzNzI1MCwiZXhwIjoxNzM2ODQyODUwfQ.KfhJCmu0VprFKAmnNRJ7FZUp624Zla4ffwQDXKHEAKY"
+}

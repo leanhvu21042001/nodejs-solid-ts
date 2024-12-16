@@ -29,7 +29,7 @@ export class UserEntity extends AbstractUserEntityBase {
     return this._username
   }
   public get password(): string {
-    return this._username
+    return this._password
   }
   public setBooks(books: BookEntity[]): void {
     this._books = books

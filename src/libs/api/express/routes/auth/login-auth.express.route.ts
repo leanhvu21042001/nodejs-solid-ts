@@ -22,7 +22,7 @@ export class LoginAuthExpressRoute implements IRouteExpress {
   ) {}
 
   public static create(getUserByUsernameService: GetUserByUsernameQuery): LoginAuthExpressRoute {
-    return new LoginAuthExpressRoute('/register', HttpMethod.POST, getUserByUsernameService)
+    return new LoginAuthExpressRoute('/login', HttpMethod.POST, getUserByUsernameService)
   }
 
   public getHandler(): (request: TExpressRequest, response: TExpressResponse) => Promise<void> {

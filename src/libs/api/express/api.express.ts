@@ -1,7 +1,7 @@
 import express from 'express'
 
 import { ENV } from 'src/libs/configs/env.config'
-import { BaseException } from 'src/libs/exceptions-application/exceptions'
+import { BaseException, NotFoundException } from 'src/libs/exceptions-application/exceptions'
 
 import { IApi } from '../api.interface'
 import {
@@ -50,7 +50,7 @@ export class ApiExpress implements IApi {
     })
 
     this.app.use('*', (req, res, next) => {
-      next(new Error('Not Found'))
+      throw new NotFoundException('Not Found')
     })
 
     this.app.use(
